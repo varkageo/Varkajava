@@ -13,22 +13,26 @@ import java.lang.*;
 @RequestMapping("persona")
 public class PesonaControlles {
 	
+	//Atributos
+	//Date fechaNac = new Date();
+	//Date fecha = new Date();
+	
+	
+	
 	@Autowired
 	private PersonaRepository personaRepository;
 	
-	/*
+	//Metodos
 	@GetMapping("/")
 	public ArrayList<PersonaDTO> listarTodos() {
 		
 		PersonaDTO personaDTO;
-		
 		Persona unaPersona;
 		
 		ArrayList<PersonaDTO> respuesta = new ArrayList<PersonaDTO>();
-		
 		Iterable<Persona> listaPersonas;
 		
-
+		
 		
 		listaPersonas = this.personaRepository.findAll();
 		System.out.println("antes del while");
@@ -42,9 +46,6 @@ public class PesonaControlles {
 			
 			personaDTO.setNombre(unaPersona.getNombre());
 			personaDTO.setApellido(unaPersona.getApellido());
-			personaDTO.setEdad(unaPersona.getEdad());
-			personaDTO.setEmail(unaPersona.getEmail());
-			personaDTO.setTelefono(unaPersona.getTelefono());
 			
 			System.out.println(personaDTO.getNombre());
 			
@@ -53,7 +54,7 @@ public class PesonaControlles {
 		
 		return respuesta;
 	}
-*/	
+	
 	
 	@GetMapping("/{id}")
 	public PersonaDTO listarUno (@PathVariable Integer id) {
@@ -62,7 +63,7 @@ public class PesonaControlles {
 		Persona unaPersona = personaRepository.findById(id).orElse(null);
 		
 		if(unaPersona == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarea no encontrada");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Persona no encontrada");
 		}
 		
 		 respuesta.setApellido(unaPersona.getApellido());
@@ -93,13 +94,37 @@ public class PesonaControlles {
 	@PutMapping("/{id}")
 	public PersonaDTO modificar(@PathVariable Integer id, @RequestBody PersonaDTO body) {
 		PersonaDTO respuesta = new PersonaDTO();
+		Persona personaAModificar;
+		
+		personaAModificar = this.personaRepository.findById(id).orElse(null);
+		if (personaAModificar==null) {
+			
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Persona no encontrada");
+		}
+		
+		personaAModificar.setNombre(body.getNombre());
+		personaAModificar.setApellido(body.getApellido());
+		
+		this.personaRepository.save(personaAModificar);
+		
 		
 		return respuesta;
 	}
 	
 	@DeleteMapping("/{id}")
-	public Boolean borrar(@PathVariable Integer id) {
-		return true;
+	public Persona borrar(@PathVariable Integer id) {
+		
+		Persona persona = personaRepository.findById(id).orElse(null);
+		if (persona==null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "pe");
+		}
+		
+		persona.setBorrado(true);
+		personaRepository.save(persona);
+		
+		
+		
+		return persona;
 	}
 	
 	

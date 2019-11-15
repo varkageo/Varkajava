@@ -1,5 +1,8 @@
 package ar.java.toDoPro.Repositories;
 
-public class TareaRepository {
+import org.springframework.data.repository.CrudRepository;
+import ar.java.toDoPro.Models.*;
+
+public interface TareaRepository extends CrudRepository <Tarea, Integer> {
 
 }

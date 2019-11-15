@@ -7,15 +7,21 @@ public class Persona {
 	
 	 @Id
 	 @GeneratedValue(strategy=GenerationType.AUTO)
-	 
 	 Integer id;
+	 
 	 String nombre;
 	 String apellido;
-	
+	 boolean borrado;
 	 
 	 
 	 
-	 public Integer getId() {
+	 public boolean getBorrado() {
+		return borrado;
+	}
+	public void setBorrado(boolean borrado) {
+		this.borrado = borrado;
+	}
+	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
@@ -33,6 +39,7 @@ public class Persona {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+	
 	 
 	 
 	 
